@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>PDF.JS Test</title>
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+	<h1>PDF.js Previous/Next example</h1>
+
+	<p>Please use <a href="https://mozilla.github.io/pdf.js/getting_started/#download"><i>official releases</i></a> in production environments.</p>
+
+	<div>
+	  <button id="prev">Previous</button>
+	  <button id="next">Next</button>
+	  &nbsp; &nbsp;
+	  <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+	</div>
+
+	<canvas id="the-canvas"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs" type="module"></script>
+	<script src="js/main.js" type="module"></script>
+  </body>
+</html>
+
+
