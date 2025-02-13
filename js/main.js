@@ -1,10 +1,10 @@
 import { pdfBase64 } from "./pdfData.js"; //A PDF, converted to a base64 encoded string
 
-const URL = 'pdf/Natural-Landscape-and-Photography.pdf'; //
+const URL = 'pdf/Queen - Best Albums.pdf'; //An URL of a PDF.
 
 const WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.mjs';
 
-var pdfDoc, pageNum, pageRendering, pageNumPending = null, scale, canvas = document.getElementById('the-canvas'), ctx = canvas.getContext('2d');
+var pdfDoc, pageNum, pageRendering, pageNumPending = null, scale, canvasElm, ctx;
 
 function renderPage(num) {
 	pageRendering = true;
@@ -13,10 +13,10 @@ function renderPage(num) {
 	  var viewport = page.getViewport({ scale: scale, });
 	  var outputScale = window.devicePixelRatio || 1;
 
-	  canvas.width = Math.floor(viewport.width * outputScale);
-	  canvas.height = Math.floor(viewport.height * outputScale);
-	  canvas.style.width = Math.floor(viewport.width) + "px";
-	  canvas.style.height =  Math.floor(viewport.height) + "px";
+	  canvasElm.width = Math.floor(viewport.width * outputScale);
+	  canvasElm.height = Math.floor(viewport.height * outputScale);
+	  canvasElm.style.width = Math.floor(viewport.width) + "px";
+	  canvasElm.style.height =  Math.floor(viewport.height) + "px";
 
 	  var transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null;
 
@@ -85,11 +85,11 @@ async function init(pdfUrl, worker) {
   pageRendering = false;
   pageNumPending = null;
   scale = 0.8;
-  canvas = document.getElementById('the-canvas');
-  ctx = canvas.getContext('2d');
+  canvasElm = document.getElementById('the-canvas');
+  ctx = canvasElm.getContext('2d');
 
-  //pdfDoc = await getPdfFromUrl(pdfUrl); //Use this if the PDF is a URL.
-  pdfDoc = await getPdfFromBase64(pdfBase64);
+  pdfDoc = await getPdfFromUrl(pdfUrl); //Use this if the PDF is a URL.
+  //pdfDoc = await getPdfFromBase64(pdfBase64);
   document.getElementById('page_count').textContent = pdfDoc.numPages;
   await addEventListeneres();
   renderPage(pageNum);
