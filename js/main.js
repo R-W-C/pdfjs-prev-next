@@ -1,4 +1,7 @@
-const URL = 'pdf/Natural-Landscape-and-Photography.pdf';
+import { pdfBase64 } from "./pdfData.js"; //A PDF, converted to a base64 encoded string
+
+const URL = 'pdf/Natural-Landscape-and-Photography.pdf'; //
+
 const WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.mjs';
 
 var pdfDoc, pageNum, pageRendering, pageNumPending = null, scale, canvas = document.getElementById('the-canvas'), ctx = canvas.getContext('2d');
@@ -66,8 +69,16 @@ async function addEventListeneres()
 	document.getElementById('next').addEventListener('click', onNextPage);
 }
 
-async function init(pdfUrl, worker)
-{
+async function getPdfFromUrl(pdfUrl) {
+	return pdfjsLib.getDocument(pdfUrl).promise;
+}
+
+async function getPdfFromBase64(pdfBase64) {
+	let pdfData = atob(pdfBase64);
+	return pdfjsLib.getDocument({ data: pdfData }).promise;
+}
+
+async function init(pdfUrl, worker) {
   pdfjsLib.GlobalWorkerOptions.workerSrc = worker;
   pdfDoc = null;
   pageNum = 1;
@@ -77,7 +88,8 @@ async function init(pdfUrl, worker)
   canvas = document.getElementById('the-canvas');
   ctx = canvas.getContext('2d');
 
-  pdfDoc = await pdfjsLib.getDocument(pdfUrl).promise;
+  //pdfDoc = await getPdfFromUrl(pdfUrl); //Use this if the PDF is a URL.
+  pdfDoc = await getPdfFromBase64(pdfBase64);
   document.getElementById('page_count').textContent = pdfDoc.numPages;
   await addEventListeneres();
   renderPage(pageNum);
